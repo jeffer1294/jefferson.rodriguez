@@ -1,0 +1,223 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { honors, offers, leadership, education, certifications, events } from "../data/site";
+
+const tabs = [
+  { id: "talks", label: "Talks & Events" },
+  { id: "awards", label: "Awards & Honors" },
+  { id: "leadership", label: "Leadership & Civic" },
+  { id: "education", label: "Education" },
+  { id: "certs", label: "Certifications" },
+];
+---
+
+<BaseLayout
+  title="Beyond the Work"
+  description="Awards, leadership, education, and certifications of Jefferson Rodriguez-Najera"
+>
+  <section class="wrap bhead">
+    <p class="eyebrow">Beyond the work</p>
+    <h1 class="bhead-title measure">The record <span class="accent-it">behind</span> the projects.</h1>
+    <p class="bhead-tag measure">
+      The rest of the story that does not fit on a project page: the awards and
+      fellowships, the years of student and civic leadership, the degrees, and
+      the training that shaped how I work.
+    </p>
+  </section>
+
+  <section class="wrap bwrap">
+    <div class="subtabs mono" role="tablist" aria-label="Beyond the work sections">
+      {tabs.map((t, i) => (
+        <button
+          class={`subtab ${i === 0 ? "is-active" : ""}`}
+          role="tab"
+          aria-selected={i === 0 ? "true" : "false"}
+          data-target={t.id}
+        >{t.label}</button>
+      ))}
+    </div>
+
+    <!-- Talks & Events -->
+    <div class="panel is-active" id="talks" role="tabpanel">
+      <div class="items talk-items">
+        {events.map((e) => (
+          <div class="item talk-item">
+            {e.image && (
+              <div class="talk-media">
+                <img src={e.image} alt={e.title} loading="lazy" />
+              </div>
+            )}
+            <div class="talk-body">
+              <div class="item-top">
+                <h3 class="item-title">{e.title}</h3>
+                <span class="item-year mono">{e.date}</span>
+              </div>
+              <p class="item-org mono">{e.event} · {e.location}</p>
+              {e.note && <p class="item-detail">{e.note}</p>}
+              {e.url && (
+                <a href={e.url} target="_blank" rel="noopener" class="mono">Link ↗</a>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Awards & Honors -->
+    <div class="panel" id="awards" role="tabpanel">
+      <div class="items">
+        {honors.map((h) => (
+          <div class="item">
+            <div class="item-top">
+              <h3 class="item-title">{h.title}</h3>
+              <span class="item-year mono">{h.year}</span>
+            </div>
+            <p class="item-detail">{h.detail}</p>
+          </div>
+        ))}
+      </div>
+      <div class="note">
+        <p class="note-label mono">Other graduate admissions & scholarship offers (2025)</p>
+        <ul class="note-list">
+          {offers.map((o) => <li>{o}</li>)}
+        </ul>
+      </div>
+    </div>
+
+    <!-- Leadership & Civic -->
+    <div class="panel" id="leadership" role="tabpanel">
+      <div class="items">
+        {leadership.map((l) => (
+          <div class="item">
+            <div class="item-top">
+              <h3 class="item-title">{l.role}</h3>
+              <span class="item-year mono">{l.period}</span>
+            </div>
+            <p class="item-org mono">{l.org}</p>
+            <ul class="item-points">
+              {l.points.map((pt) => <li>{pt}</li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Education -->
+    <div class="panel" id="education" role="tabpanel">
+      <div class="items">
+        {education.map((e) => (
+          <div class="item">
+            <div class="item-top">
+              <h3 class="item-title">{e.degree}</h3>
+              <span class="item-year mono">{e.period}</span>
+            </div>
+            <p class="item-org mono">{e.org}</p>
+            <ul class="item-points">
+              {e.points.map((pt) => <li>{pt}</li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Certifications -->
+    <div class="panel" id="certs" role="tabpanel">
+      <ul class="cert-list">
+        {certifications.map((c) => <li>{c}</li>)}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .bhead { padding-top: clamp(2.5rem, 1.5rem + 4vw, 5rem); }
+  .bhead-title { font-size: var(--step-3); margin: 0.4em 0 0.5em; }
+  .bhead-tag { font-size: var(--step-1); color: var(--ink-soft); line-height: 1.5; }
+
+  .bwrap { margin-top: var(--section-y); }
+  .subtabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 1.2rem;
+    margin-bottom: 2rem;
+  }
+  .subtab {
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--ink-soft);
+    padding: 0.55em 1.3em;
+    font-size: var(--step--1);
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: color var(--transition), border-color var(--transition), background var(--transition);
+  }
+  .subtab:hover { color: var(--ink); border-color: var(--ink); }
+  .subtab.is-active { color: var(--green-ink); background: var(--green); border-color: var(--green); }
+
+  .panel { display: none; }
+  .panel.is-active { display: block; }
+
+  .items { display: flex; flex-direction: column; gap: 1.6rem; max-width: 60ch; }
+  .item { border-top: 1px solid var(--line); padding-top: 1.2rem; }
+  .item:first-child { border-top: none; padding-top: 0; }
+
+  .talk-items { max-width: 70ch; }
+  .talk-item { display: grid; grid-template-columns: 140px 1fr; gap: 1.2rem; align-items: start; }
+  .talk-media { aspect-ratio: 4 / 3; overflow: hidden; border-radius: 12px; background: var(--surface); }
+  .talk-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .talk-body { min-width: 0; }
+  @media (max-width: 560px) {
+    .talk-item { grid-template-columns: 1fr; }
+    .talk-media { max-width: 220px; }
+  }
+  .item-top { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
+  .item-title { font-size: var(--step-1); line-height: 1.25; }
+  .item-year { font-size: var(--step--1); color: var(--ink-faint); white-space: nowrap; }
+  .item-org { font-size: var(--step--1); color: var(--accent-2); margin: 0.35rem 0 0; }
+  .item-detail { color: var(--ink-soft); margin: 0.5rem 0 0; line-height: 1.6; }
+  .item-points { margin: 0.7rem 0 0; padding-left: 1.1em; display: flex; flex-direction: column; gap: 0.5rem; }
+  .item-points li { color: var(--ink-soft); line-height: 1.6; }
+
+  .note { margin-top: 2.5rem; border-top: 1px solid var(--line); padding-top: 1.4rem; max-width: 60ch; }
+  .note-label { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); margin: 0 0 0.8rem; }
+  .note-list { margin: 0; padding-left: 1.1em; display: flex; flex-direction: column; gap: 0.5rem; }
+  .note-list li { color: var(--ink-soft); line-height: 1.6; }
+
+  .cert-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.7rem 2rem;
+    max-width: 70ch;
+  }
+  .cert-list li {
+    color: var(--ink-soft);
+    padding-left: 1em;
+    position: relative;
+    line-height: 1.5;
+  }
+  .cert-list li::before { content: ""; position: absolute; left: 0; top: 0.6em; width: 5px; height: 5px; background: var(--accent); }
+
+  @media (max-width: 620px) { .cert-list { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+  const tabsEl = document.querySelectorAll<HTMLButtonElement>(".subtab");
+  const panels = document.querySelectorAll<HTMLElement>(".panel");
+  tabsEl.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const target = btn.dataset.target;
+      tabsEl.forEach((b) => {
+        const on = b === btn;
+        b.classList.toggle("is-active", on);
+        b.setAttribute("aria-selected", String(on));
+      });
+      panels.forEach((p) => p.classList.toggle("is-active", p.id === target));
+    });
+  });
+</script>

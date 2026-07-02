@@ -1,0 +1,100 @@
+---
+interface Props {
+  href: string;
+  index?: string;
+  title: string;
+  org: string;
+  period: string;
+  summary: string;
+  methods?: string[];
+  cover?: string;
+}
+const { href, index, title, org, period, summary, methods = [], cover } = Astro.props;
+---
+
+<a class="card" href={href}>
+  {cover && (
+    <div class="card-media">
+      <img src={cover} alt="" loading="lazy" />
+    </div>
+  )}
+  <div class="card-body">
+    <div class="card-top mono">
+      {index && <span class="card-index">{index}</span>}
+      <span class="card-period">{period}</span>
+    </div>
+    <h3 class="card-title">{title}</h3>
+    <p class="card-org mono">{org}</p>
+    <p class="card-summary">{summary}</p>
+    {methods.length > 0 && (
+      <ul class="card-tags">
+        {methods.slice(0, 4).map((m) => <li>{m}</li>)}
+      </ul>
+    )}
+    <span class="card-cta mono">View project →</span>
+  </div>
+</a>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--ink);
+    padding-top: 1.1rem;
+    height: 100%;
+    transition: border-color var(--transition);
+  }
+  .card:hover { border-top-color: var(--accent); }
+  .card-media {
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border-radius: var(--r-card);
+    background: var(--bg-2);
+    margin-bottom: 1.1rem;
+  }
+  .card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform var(--transition);
+  }
+  .card:hover .card-media img { transform: scale(1.04); }
+  .card-body { display: flex; flex-direction: column; gap: 0.65rem; flex: 1; }
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--step--1);
+    color: var(--ink-faint);
+    letter-spacing: 0.08em;
+  }
+  .card-index { color: var(--accent); }
+  .card-title { font-size: var(--step-1); line-height: 1.15; transition: color var(--transition); }
+  .card:hover .card-title { color: var(--accent); }
+  .card-org { font-size: 0.78rem; color: var(--accent-2); margin: 0; letter-spacing: 0.02em; }
+  .card-summary { color: var(--ink-soft); margin: 0; font-size: var(--step--1); line-height: 1.6; }
+  .card-tags {
+    list-style: none;
+    margin: 0.2rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .card-tags li {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.03em;
+    color: var(--ink-faint);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 0.25em 0.75em;
+  }
+  .card-cta {
+    margin-top: auto;
+    padding-top: 0.7rem;
+    font-size: var(--step--1);
+    color: var(--accent);
+    letter-spacing: 0.04em;
+  }
+</style>

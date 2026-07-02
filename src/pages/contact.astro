@@ -1,0 +1,58 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../data/site";
+---
+
+<BaseLayout title="Contact" description="Get in touch with Jefferson Rodriguez-Najera">
+  <section class="wrap chead">
+    <p class="eyebrow">Contact</p>
+    <h1 class="chead-title measure">Let's talk about evidence, policy, and <span class="accent-it">Latin America</span>.</h1>
+    <p class="chead-blurb measure">
+      I'm open to pre-doctoral research positions, policy-analyst roles, and
+      collaborations on development economics, impact evaluation, and
+      evidence-based policy. The fastest way to reach me is by email.
+    </p>
+
+    <div class="clinks">
+      <a class="crow" href={`mailto:${site.email}`}>
+        <span class="mono ckey">Email</span>
+        <span class="cval">{site.email}</span>
+        <span class="mono carrow">→</span>
+      </a>
+      <a class="crow" href={site.linkedin} target="_blank" rel="noopener">
+        <span class="mono ckey">LinkedIn</span>
+        <span class="cval">in/jefferson-rodriguez-najera</span>
+        <span class="mono carrow">↗</span>
+      </a>
+      <a class="crow" href={site.cv} target="_blank" rel="noopener">
+        <span class="mono ckey">CV</span>
+        <span class="cval">Download PDF</span>
+        <span class="mono carrow">↓</span>
+      </a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .chead { padding-top: clamp(3rem, 2rem + 4vw, 6rem); }
+  .chead-title { font-size: var(--step-3); margin: 0.4em 0; }
+  .chead-blurb { font-size: var(--step-1); color: var(--ink-soft); }
+  .clinks { margin-top: 3rem; border-top: 1px solid var(--line); max-width: 720px; }
+  .crow {
+    display: grid;
+    grid-template-columns: 130px 1fr auto;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.4rem 0.5rem;
+    border-bottom: 1px solid var(--line);
+    transition: background var(--transition), padding-left var(--transition);
+  }
+  .crow:hover { background: var(--surface); padding-left: 1.2rem; }
+  .ckey { font-size: var(--step--1); color: var(--ink-faint); letter-spacing: 0.1em; text-transform: uppercase; }
+  .cval { font-size: var(--step-1); color: var(--ink); font-weight: 500; letter-spacing: -0.01em; }
+  .carrow { color: var(--accent); }
+  @media (max-width: 560px) {
+    .crow { grid-template-columns: 1fr auto; }
+    .ckey { grid-column: 1 / -1; }
+  }
+</style>

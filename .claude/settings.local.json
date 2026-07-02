@@ -1,0 +1,39 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(sleep 8 && cat /tmp/astro-dev.log)",
+      "mcp__Claude_in_Chrome__navigate",
+      "mcp__Claude_in_Chrome__list_connected_browsers",
+      "Bash(start \"\" \"C:/Program Files/Google/Chrome/Application/chrome.exe\" \"http://localhost:4321\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code} %{content_type}\" \"http://localhost:4321/images/profile.JPG\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"http://localhost:4321/publications/\")",
+      "Bash(cd \"/c/Users/Jefferson Rodriguez/OneDrive - University of Virginia/Documents/portfolio\" && cat public/images/README.txt; echo \"---\"; cat public/cv/README.txt; echo \"---downloads---\"; ls -la \"/c/Users/Jefferson Rodriguez/Downloads\" | grep -iE \"cv|resume|cover|curriculum\" )",
+      "WebFetch(domain:kerwa.ucr.ac.cr)",
+      "WebFetch(domain:innovaap.ucr.ac.cr)",
+      "WebFetch(domain:myuva-my.sharepoint.com)",
+      "WebFetch(domain:6f33fa7f78ea46e2aaca-my.sharepoint.com)",
+      "Bash(npx astro *)",
+      "Bash(curl -s http://localhost:4321/)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:4321/)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:4322/)",
+      "Bash(curl -s -o /dev/null -w \"4321: %{http_code}\\\\n\" http://localhost:4321/)",
+      "Bash(curl -s -o /dev/null -w \"4322: %{http_code}\\\\n\" http://localhost:4322/)",
+      "Bash(netstat -ano)",
+      "Bash(curl -s http://localhost:4321/ -o /tmp_home.html -w \"home: %{http_code}\\\\n\")",
+      "Bash(curl -s http://localhost:4321/about/ -o /tmp_about.html -w \"about: %{http_code}\\\\n\")",
+      "Bash(curl -s http://localhost:4321/projects/research/ -o /tmp_research.html -w \"research: %{http_code}\\\\n\")",
+      "Bash(curl -s http://localhost:4321/projects/r8/ -o /tmp_r8.html -w \"r8: %{http_code}\\\\n\")",
+      "Bash(curl -s http://localhost:4321/projects/r4/ -o /tmp_r4.html -w \"r4: %{http_code}\\\\n\")",
+      "mcp__claude-in-chrome__navigate",
+      "mcp__claude-in-chrome__tabs_context_mcp",
+      "mcp__visualize__read_me",
+      "Bash(curl -s -o /dev/null -w \"59458: %{http_code}\\\\n\" http://localhost:59458/)",
+      "mcp__visualize__show_widget",
+      "PowerShell(Get-NetTCPConnection -LocalPort 4321 -State Listen -ErrorAction SilentlyContinue | Select-Object -First 3 LocalAddress,LocalPort,OwningProcess; try { \\(Invoke-WebRequest -Uri \"http://localhost:4321/\" -UseBasicParsing -TimeoutSec 5\\).StatusCode } catch { \"fetch failed: $\\($_.Exception.Message\\)\" })",
+      "PowerShell($html = \\(Invoke-WebRequest -Uri \"http://localhost:4321/\" -UseBasicParsing -TimeoutSec 10\\).Content; @\\(\"Archivo\",\"Instrument+Serif\",\"arch-frame\",\"drop-panel\",\"Projects\",\"accent-it\",\"hero-contours\",\"cats-band\"\\) | ForEach-Object { \"{0} : {1}\" -f $_, \\($html -match [regex]::Escape\\($_\\)\\) })",
+      "PowerShell(npm run build)",
+      "PowerShell($h = \\(Invoke-WebRequest -Uri \"http://localhost:4321/\" -UseBasicParsing -TimeoutSec 10\\).Content; $m = [regex]::Match\\($h, '\\(?s\\)projects-menu.{0,900}?</div>'\\); $m.Value -replace '\\\\s+', ' ')",
+      "PowerShell(npm run build 2>&1)"
+    ]
+  }
+}

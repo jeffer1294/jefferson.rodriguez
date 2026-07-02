@@ -1,0 +1,87 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { teaching } from "../data/site";
+
+const photo = "/images/projects/t1.JPG";
+---
+
+<BaseLayout
+  title="Teaching"
+  description="Teaching and mentoring by Jefferson Rodriguez-Najera"
+>
+  <section class="wrap thead">
+    <p class="eyebrow">Teaching</p>
+    <h1 class="thead-title measure">Helping the next set of public leaders <span class="accent-it">think for themselves</span>.</h1>
+    <p class="thead-tag measure">
+      Teaching has run alongside my research and policy work for years, from
+      undergraduate lecture halls in Costa Rica to a graduate leadership course
+      at the University of Virginia. The through line is simple: give people the
+      tools to ask better questions, then get out of their way.
+    </p>
+  </section>
+
+  <section class="wrap tbody">
+    <div class="tphoto-col">
+      <div class="arch-frame">
+        <div class="arch-media tphoto">
+          <img
+            src={photo}
+            alt="Jefferson Rodriguez-Najera teaching"
+            onerror="this.style.display='none';this.parentElement.classList.add('noimg')"
+          />
+          <span class="photo-fallback mono">Photo</span>
+        </div>
+      </div>
+      <p class="tphoto-caption mono">In the classroom · UCR &amp; UVA</p>
+    </div>
+
+    <div class="tlist">
+      {teaching.map((t) => (
+        <article class="tentry">
+          <div class="tentry-head">
+            <h2 class="tentry-role">{t.role}</h2>
+            <span class="tentry-period mono">{t.period}</span>
+          </div>
+          <p class="tentry-org mono">{t.org} · {t.location}</p>
+          <ul class="tentry-points">
+            {t.points.map((pt) => <li>{pt}</li>)}
+          </ul>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .thead { padding-top: clamp(2.5rem, 1.5rem + 4vw, 5rem); }
+  .thead-title { font-size: var(--step-3); margin: 0.4em 0 0.5em; }
+  .thead-tag { font-size: var(--step-1); color: var(--ink-soft); line-height: 1.5; }
+
+  .tbody {
+    margin-top: var(--section-y);
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: clamp(2rem, 1rem + 4vw, 5rem);
+    align-items: start;
+  }
+  .tphoto-col { position: sticky; top: 6rem; }
+  .tphoto { aspect-ratio: 0.72; }
+  .tphoto-caption { text-align: center; font-size: var(--step--1); color: var(--ink-faint); margin: 0.8rem 0 0; }
+  .photo-fallback { position: absolute; inset: 0; display: none; align-items: center; justify-content: center; color: var(--ink-faint); font-size: var(--step--1); letter-spacing: 0.1em; }
+  .tphoto.noimg .photo-fallback { display: flex; }
+
+  .tlist { display: flex; flex-direction: column; gap: 2.5rem; }
+  .tentry { border-top: 1px solid var(--line); padding-top: 1.4rem; }
+  .tentry:first-child { border-top: none; padding-top: 0; }
+  .tentry-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
+  .tentry-role { font-size: var(--step-1); line-height: 1.2; }
+  .tentry-period { font-size: var(--step--1); color: var(--ink-faint); white-space: nowrap; }
+  .tentry-org { font-size: var(--step--1); color: var(--accent-2); margin: 0.4rem 0 0.9rem; }
+  .tentry-points { margin: 0; padding-left: 1.1em; display: flex; flex-direction: column; gap: 0.6rem; }
+  .tentry-points li { color: var(--ink-soft); line-height: 1.6; }
+
+  @media (max-width: 820px) {
+    .tbody { grid-template-columns: 1fr; }
+    .tphoto-col { position: static; max-width: 280px; }
+  }
+</style>

@@ -1,0 +1,229 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import Contours from "../components/Contours.astro";
+import { getCollection } from "astro:content";
+import { site, highlights, categories, about } from "../data/site";
+
+const all = await getCollection("projects");
+const featured = all
+  .filter((p) => p.data.featured)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const counts = {
+  research: all.filter((p) => p.data.category === "research").length,
+  policy: all.filter((p) => p.data.category === "policy").length,
+  innovation: all.filter((p) => p.data.category === "innovation").length,
+};
+const catKeys = ["research", "policy", "innovation"] as const;
+---
+
+<BaseLayout>
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">San José, C.R. → Bogotá, Col. → Charlottesville, VA</p>
+        <h1 class="hero-title">Pura vida! I’m <span class="accent-it">Jefferson</span>.</h1>
+        <p class="hero-tag measure">I grew up in the mountains outside San José, Costa Rica, and I've spent my career trying to bring good policy back to towns like the one I grew up in.</p>
+        <div class="hero-actions">
+          <a class="btn btn--solid" href="/about/">My story</a>
+          <a class="btn" href="/projects/research/">Explore projects</a>
+        </div>
+        <div class="hero-soc mono">
+          <a href={`mailto:${site.email}`}>{site.email}</a>
+          <a href={site.linkedin} target="_blank" rel="noopener">LinkedIn ↗</a>
+          <a href={site.cv} target="_blank" rel="noopener">CV (PDF) ↓</a>
+        </div>
+      </div>
+      <div class="hero-photo-col">
+        <div class="hero-contours"><Contours /></div>
+        <div class="arch-frame hero-photo">
+          <div class="arch-media hero-media">
+            <img src={site.photo} alt={site.name} onerror="this.style.display='none';this.parentElement.classList.add('noimg')" />
+            <span class="photo-fallback mono">Photo</span>
+          </div>
+        </div>
+        <p class="hero-caption mono">Vázquez de Coronado, Costa Rica</p>
+      </div>
+      <span class="vert-label hero-coords" aria-hidden="true">10°04′33″ N — 83°56′53″ W — 1 385 m</span>
+    </div>
+  </section>
+
+  <section class="strip">
+    <div class="wrap strip-inner mono">
+      {highlights.map((h) => <span class="strip-item">{h}</span>)}
+    </div>
+  </section>
+
+  <section class="band cats-band">
+    <div class="band-contours"><Contours /></div>
+    <div class="wrap band-inner">
+      <p class="eyebrow eyebrow--band">Three kinds of work</p>
+      <h2 class="band-title">One question behind all of it: <span class="accent-it accent-it--band">what actually works?</span></h2>
+      <div class="cats">
+        {catKeys.map((k, i) => (
+          <a class="cat" href={`/projects/${k}/`}>
+            <span class="cat-num mono">{String(i + 1).padStart(2, "0")}</span>
+            <h3 class="cat-name">{categories[k].label}</h3>
+            <p class="cat-blurb">{categories[k].blurb}</p>
+            <span class="cat-cta mono">{counts[k]} projects →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap block">
+    <div class="block-head">
+      <p class="eyebrow">Selected work</p>
+      <h2 class="block-title">Featured <span class="accent-it">projects</span></h2>
+    </div>
+    <div class="grid-3">
+      {featured.map((p) => (
+        <ProjectCard
+          href={`/projects/${p.id}/`}
+          title={p.data.title}
+          org={p.data.org}
+          period={p.data.period}
+          summary={p.data.summary}
+          methods={p.data.methods}
+          cover={p.data.cover}
+        />
+      ))}
+    </div>
+  </section>
+
+  <section class="wrap block">
+    <div class="about-row">
+      <p class="eyebrow">In brief</p>
+      <div class="about-copy measure">
+        <p>{about[0]}</p>
+        <p>{about[1]}</p>
+        <a class="btn" href="/about/">Read my full story</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero { padding-block: clamp(2.5rem, 1.5rem + 4vw, 5rem); overflow: hidden; }
+  .hero-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.3fr auto;
+    gap: clamp(1.5rem, 1rem + 3vw, 4rem);
+    align-items: center;
+    padding-right: clamp(2.5rem, 2rem + 2vw, 4rem);
+  }
+  .hero-copy { min-width: 0; position: relative; z-index: 2; }
+  .hero-title { font-size: var(--step-4); margin: 0.35em 0 0.3em; }
+  .hero-tag { font-size: var(--step-1); font-weight: 400; color: var(--ink-soft); line-height: 1.45; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 1.8rem; }
+  .hero-soc { display: flex; flex-wrap: wrap; gap: 1.4rem; margin-top: 1.5rem; font-size: var(--step--1); }
+  .hero-soc a { color: var(--ink-faint); transition: color var(--transition); }
+  .hero-soc a:hover { color: var(--accent); }
+
+  .hero-photo-col { position: relative; justify-self: end; }
+  .hero-contours {
+    position: absolute;
+    right: -34%;
+    top: -14%;
+    width: clamp(240px, 30vw, 400px);
+    color: var(--accent);
+    opacity: 0.38;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .hero-photo { position: relative; z-index: 1; width: clamp(220px, 24vw, 290px); }
+  .hero-media { aspect-ratio: 0.72; }
+  .photo-fallback { position: absolute; inset: 0; display: none; align-items: center; justify-content: center; color: var(--ink-faint); font-size: var(--step--1); letter-spacing: 0.1em; }
+  .hero-media.noimg .photo-fallback { display: flex; }
+  .hero-caption {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    font-size: var(--step--1);
+    color: var(--ink-faint);
+    margin: 0.8rem 0 0;
+  }
+  .hero-coords {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    white-space: nowrap;
+    z-index: 1;
+  }
+
+  .strip { border-block: 1px solid var(--line); background: var(--bg-2); }
+  .strip-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(1rem, 0.5rem + 2vw, 2.5rem);
+    padding-block: 1.1rem;
+    font-size: var(--step--1);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .strip-item { display: inline-flex; align-items: center; gap: 0.8em; }
+  .strip-item:not(:last-child)::after { content: ""; width: 5px; height: 5px; background: var(--accent); border-radius: 50%; }
+
+  .cats-band {
+    position: relative;
+    overflow: hidden;
+    margin-top: var(--section-y);
+    padding-block: clamp(2.8rem, 2rem + 3vw, 5rem);
+  }
+  .band-contours {
+    position: absolute;
+    left: -90px;
+    bottom: -110px;
+    width: 360px;
+    color: var(--accent-soft);
+    opacity: 0.3;
+    pointer-events: none;
+  }
+  .band-inner { position: relative; }
+  .band-title { font-size: var(--step-2); margin-top: 0.5em; max-width: 26ch; }
+  .cats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.4rem, 1rem + 2vw, 3rem);
+    margin-top: 2.4rem;
+  }
+  .cat {
+    border-top: 1px solid var(--green-line);
+    padding-top: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    transition: border-color var(--transition);
+  }
+  .cat:hover { border-color: var(--accent-soft); }
+  .cat-num { font-size: var(--step--1); color: var(--accent-soft); letter-spacing: 0.1em; }
+  .cat-name { font-size: var(--step-1); color: var(--green-ink); }
+  .cat-blurb { color: var(--green-soft); margin: 0; font-size: var(--step--1); line-height: 1.55; }
+  .cat-cta { margin-top: auto; padding-top: 0.5rem; color: var(--accent-soft); font-size: var(--step--1); }
+
+  .block { padding-top: var(--section-y); }
+  .block-head { margin-bottom: 2rem; }
+  .block-title { font-size: var(--step-2); margin-top: 0.3em; }
+
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.4rem, 1rem + 1.5vw, 2.4rem); }
+
+  .about-row { display: grid; grid-template-columns: auto 1fr; gap: clamp(1.5rem, 1rem + 3vw, 4rem); }
+  .about-copy p { margin: 0 0 1.1em; color: var(--ink-soft); }
+  .about-copy .btn { margin-top: 0.4rem; }
+
+  @media (max-width: 760px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 2.2rem; padding-right: 0; }
+    .hero-photo-col { order: -1; justify-self: start; }
+    .hero-photo { width: min(64vw, 250px); }
+    .hero-contours { right: -20%; width: 240px; }
+    .hero-caption { text-align: left; }
+    .hero-coords { display: none; }
+    .cats, .grid-3 { grid-template-columns: 1fr; }
+    .about-row { grid-template-columns: 1fr; }
+  }
+</style>

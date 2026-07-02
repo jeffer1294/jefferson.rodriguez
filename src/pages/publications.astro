@@ -1,0 +1,67 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { publications } from "../data/site";
+---
+
+<BaseLayout title="Publications" description="Academic publications by Jefferson Rodriguez-Najera">
+  <section class="wrap phead">
+    <p class="eyebrow">Publications</p>
+    <h1 class="phead-title">Published &amp; forthcoming <span class="accent-it">work</span></h1>
+    <p class="phead-blurb measure">Peer-reviewed and applied research on public administration, cultural policy, inclusive data, and local innovation in Latin America.</p>
+  </section>
+
+  <section class="wrap plist">
+    <ol>
+      {publications.map((pub, i) => (
+        <li class="pitem">
+          <span class="pnum mono">{String(i + 1).padStart(2, "0")}</span>
+          <div class="pbody">
+            {pub.url
+              ? <a class="pcite pcite-link" href={pub.url} target="_blank" rel="noopener">{pub.cite}</a>
+              : <p class="pcite">{pub.cite}</p>
+            }
+            <div class="pmeta">
+              {pub.note && <span class="pnote mono">{pub.note}</span>}
+              {pub.url && <span class="pdoi mono">↗ Full text</span>}
+            </div>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+</BaseLayout>
+
+<style>
+  .phead { padding-top: clamp(2.5rem, 1.5rem + 4vw, 5rem); }
+  .phead-title { font-size: var(--step-3); margin: 0.3em 0 0.4em; }
+  .phead-blurb { font-size: var(--step-1); color: var(--ink-soft); }
+
+  .plist { margin-top: 3rem; }
+  .plist ol { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .pitem {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: 1.2rem;
+    padding: 1.8rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .pnum { color: var(--accent); font-size: var(--step--1); padding-top: 0.3em; }
+  .pcite { margin: 0; color: var(--ink); line-height: 1.6; max-width: 70ch; }
+  .pcite-link { display: block; color: var(--ink); line-height: 1.6; max-width: 70ch; transition: color var(--transition); }
+  .pcite-link:hover { color: var(--accent); }
+  .pmeta { display: flex; align-items: center; gap: 0.8rem; margin-top: 0.7rem; flex-wrap: wrap; }
+  .pnote {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--green-ink);
+    background: var(--green);
+    border-radius: 999px;
+    padding: 0.35em 0.9em;
+  }
+  .pdoi { font-size: 0.72rem; letter-spacing: 0.08em; color: var(--accent); }
+
+  @media (max-width: 600px) {
+    .pitem { grid-template-columns: 1fr; gap: 0.5rem; }
+  }
+</style>

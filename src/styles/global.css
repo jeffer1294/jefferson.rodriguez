@@ -1,0 +1,215 @@
+/* =========================================================================
+   "ENTRE MONTAÑAS" — DESIGN TOKENS
+   -------------------------------------------------------------------------
+   Cream paper, deep forest green, clay. Arch-shaped photo frames (a nod to
+   rural Latin American corredores) and topographic contour lines.
+   Type: Archivo (display + body) · Instrument Serif (italic accents) ·
+   IBM Plex Mono (labels, coordinates, counts).
+   ========================================================================= */
+
+:root {
+  /* Type */
+  --font-display: "Archivo", system-ui, -apple-system, sans-serif;
+  --font-body: "Archivo", system-ui, -apple-system, sans-serif;
+  --font-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* Scale */
+  --step--1: clamp(0.83rem, 0.8rem + 0.15vw, 0.92rem);
+  --step-0: clamp(1rem, 0.95rem + 0.25vw, 1.12rem);
+  --step-1: clamp(1.2rem, 1.1rem + 0.5vw, 1.5rem);
+  --step-2: clamp(1.5rem, 1.3rem + 1vw, 2.1rem);
+  --step-3: clamp(2rem, 1.6rem + 2vw, 3.1rem);
+  --step-4: clamp(2.4rem, 1.9rem + 2.8vw, 4.4rem);
+
+  /* Palette — cream / ink / clay */
+  --bg: #eee8da;
+  --bg-2: #e7e0cd;
+  --surface: #f4efe2;
+  --line: #d5ccb4;
+  --ink: #1f281f;
+  --ink-soft: #4b5245;
+  --ink-faint: #7d7663;
+  --accent: #b95f3a;        /* clay */
+  --accent-soft: #d89a72;   /* clay on dark green */
+  --accent-ink: #f6f1e4;
+
+  /* Deep green band (sections, footer, dropdown) */
+  --green: #23392c;
+  --green-2: #2c4636;
+  --green-ink: #ede6d4;
+  --green-soft: rgba(237, 230, 212, 0.72);
+  --green-line: rgba(237, 230, 212, 0.28);
+  /* Green as a text accent on cream (links, org lines) */
+  --accent-2: #3c5c46;
+
+  --measure: 66ch;
+  --arch: 999px 999px 0 0;
+  --r-card: 18px;
+  --gap: clamp(1rem, 0.8rem + 1vw, 1.6rem);
+  --section-y: clamp(3.5rem, 2.5rem + 4vw, 6.5rem);
+  --maxw: 1140px;
+  --transition: 0.32s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  background: var(--bg);
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.018em;
+  margin: 0;
+}
+
+a { color: inherit; text-decoration: none; }
+
+::selection { background: var(--accent); color: var(--accent-ink); }
+
+.wrap {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: clamp(1.1rem, 0.6rem + 2.5vw, 2.5rem);
+}
+
+/* Italic serif accent inside headings — the signature flourish */
+.accent-it {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0;
+  font-size: 1.08em;
+  color: var(--accent);
+}
+.accent-it--band { color: var(--accent-soft); }
+
+/* Eyebrow / label — mono coordinates style */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.eyebrow--band { color: var(--accent-soft); }
+
+/* Vertical mono label (coordinates in page margins) */
+.vert-label {
+  writing-mode: vertical-rl;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+/* Arch photo frame — outer clay ring + arched media */
+.arch-frame {
+  padding: 8px;
+  border: 1px solid var(--accent);
+  border-radius: var(--arch);
+}
+.arch-media {
+  position: relative;
+  border-radius: var(--arch);
+  overflow: hidden;
+  background: var(--bg-2);
+}
+.arch-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Deep green band sections */
+.band {
+  background: var(--green);
+  color: var(--green-ink);
+}
+
+/* Buttons — pill (echoes the arch) */
+.btn {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: var(--step--1);
+  letter-spacing: 0.02em;
+  padding: 0.7em 1.5em;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  color: var(--ink);
+  background: transparent;
+  cursor: pointer;
+  transition: border-color var(--transition), color var(--transition), background var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+}
+.btn:hover { border-color: var(--accent); color: var(--accent); }
+.btn--solid {
+  background: var(--green);
+  color: var(--green-ink);
+  border-color: var(--green);
+}
+.btn--solid:hover { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.mono { font-family: var(--font-mono); }
+.measure { max-width: var(--measure); }
+
+hr.rule {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 0;
+}
+
+/* Responsive iframe embed (YouTube, Vimeo, Google Drive PDF preview) */
+.embed-wrap {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  margin: 2rem 0;
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+  overflow: hidden;
+  background: var(--surface);
+}
+.embed-wrap iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+/* Taller ratio for PDF previews */
+.embed-wrap--doc {
+  aspect-ratio: 4 / 3;
+}
