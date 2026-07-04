@@ -3,7 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import ProjectCard from "../components/ProjectCard.astro";
 import Contours from "../components/Contours.astro";
 import { getCollection } from "astro:content";
-import { site, highlights, categories, about, events } from "../data/site";
+import { site, highlights, categories, events } from "../data/site";
 
 const all = await getCollection("projects");
 const featured = all
@@ -126,16 +126,6 @@ const marquee = events.filter((e) => e.image);
     </div>
   </section>
 
-  <section class="wrap block">
-    <div class="about-row">
-      <p class="eyebrow">In brief</p>
-      <div class="about-copy measure">
-        <p>{about[0]}</p>
-        <p>{about[1]}</p>
-        <a class="btn" href="/about/">Read my full story</a>
-      </div>
-    </div>
-  </section>
 </BaseLayout>
 
 <style>
@@ -226,10 +216,6 @@ const marquee = events.filter((e) => e.image);
 
   .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.4rem, 1rem + 1.5vw, 2.4rem); }
 
-  .about-row { display: grid; grid-template-columns: auto 1fr; gap: clamp(1.5rem, 1rem + 3vw, 4rem); }
-  .about-copy p { margin: 0 0 1.1em; color: var(--ink-soft); }
-  .about-copy .btn { margin-top: 0.4rem; }
-
   .events-band { margin-top: var(--section-y); padding-block: clamp(2.5rem, 2rem + 2vw, 4rem); overflow: hidden; }
   .events-head {
     display: flex;
@@ -243,21 +229,23 @@ const marquee = events.filter((e) => e.image);
   .marquee {
     position: relative;
     width: 100%;
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    cursor: grab;
+    touch-action: pan-x;
     -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
     mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
   }
+  .marquee::-webkit-scrollbar { display: none; }
+  .marquee.is-dragging { cursor: grabbing; }
+  .marquee.is-dragging .mq-card { pointer-events: none; }
   .marquee-track {
     display: flex;
     width: max-content;
     gap: 1.4rem;
-    animation: marquee-scroll 55s linear infinite;
-  }
-  .marquee:hover .marquee-track { animation-play-state: paused; }
-
-  @keyframes marquee-scroll {
-    from { transform: translateX(0); }
-    to { transform: translateX(calc(-50% - 0.7rem)); }
+    padding: 4px 0;
   }
 
   .mq-card {
@@ -278,16 +266,91 @@ const marquee = events.filter((e) => e.image);
   .mq-title { font-size: var(--step-0); line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   .mq-event { font-size: var(--step--1); font-weight: 500; color: var(--accent-2); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
-  @media (prefers-reduced-motion: reduce) {
-    .marquee-track { animation: none; flex-wrap: nowrap; overflow-x: auto; }
-  }
-
   @media (max-width: 760px) {
     .hero-grid { grid-template-columns: 1fr; gap: 2.2rem; padding-right: 0; }
     .hero-photo-col { order: -1; justify-self: start; }
     .hero-photo { width: min(64vw, 250px); }
     .hero-caption { text-align: left; }
     .cats, .grid-3 { grid-template-columns: 1fr; }
-    .about-row { grid-template-columns: 1fr; }
   }
 </style>
+
+<script>
+  const marquee = document.querySelector<HTMLElement>(".marquee");
+  const track = marquee?.querySelector<HTMLElement>(".marquee-track");
+  if (marquee && track) {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // One "copy" of the duplicated card list — the seamless loop distance.
+    const gap = () => parseFloat(getComputedStyle(track).columnGap || "0") || 0;
+    let loopDist = (track.scrollWidth + gap()) / 2;
+    const recompute = () => { loopDist = (track.scrollWidth + gap()) / 2; };
+    window.addEventListener("resize", recompute);
+    window.addEventListener("load", recompute);
+
+    let paused = false;
+    let dragging = false;
+    let lastX = 0;
+    let moved = 0;
+    // Float accumulator — scrollLeft is rounded to an integer by the browser,
+    // so a sub-pixel speed must be tracked separately or it never advances.
+    let pos = marquee.scrollLeft;
+
+    const wrap = () => {
+      if (marquee.scrollLeft >= loopDist) marquee.scrollLeft -= loopDist;
+      else if (marquee.scrollLeft < 0) marquee.scrollLeft += loopDist;
+    };
+
+    // Gentle auto-scroll that yields to the user.
+    const SPEED = 0.4; // px per frame (~24px/s)
+    const tick = () => {
+      if (paused || dragging) {
+        pos = marquee.scrollLeft; // stay in sync with manual scrolling
+      } else {
+        pos += SPEED;
+        if (pos >= loopDist) pos -= loopDist;
+        else if (pos < 0) pos += loopDist;
+        marquee.scrollLeft = pos;
+      }
+      requestAnimationFrame(tick);
+    };
+    if (!reduce) requestAnimationFrame(tick);
+
+    // Pause while the user reads or focuses a card.
+    marquee.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") paused = true; });
+    marquee.addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse") paused = false; });
+    marquee.addEventListener("focusin", () => { paused = true; });
+    marquee.addEventListener("focusout", () => { paused = false; });
+
+    // Mouse drag-to-scroll (touch and trackpad use native scrolling).
+    marquee.addEventListener("pointerdown", (e) => {
+      paused = true;
+      if (e.pointerType !== "mouse" || e.button !== 0) return;
+      dragging = true; lastX = e.clientX; moved = 0;
+      marquee.classList.add("is-dragging");
+      marquee.setPointerCapture(e.pointerId);
+    });
+    marquee.addEventListener("pointermove", (e) => {
+      if (!dragging) return;
+      const dx = e.clientX - lastX;
+      lastX = e.clientX;
+      moved += Math.abs(dx);
+      marquee.scrollLeft -= dx;
+      wrap();
+    });
+    const endDrag = (e: PointerEvent) => {
+      if (dragging) {
+        dragging = false;
+        marquee.classList.remove("is-dragging");
+      }
+      if (e.pointerType !== "mouse" || !marquee.matches(":hover")) paused = false;
+    };
+    marquee.addEventListener("pointerup", endDrag);
+    marquee.addEventListener("pointercancel", endDrag);
+
+    // Suppress navigation when the pointer was dragged, not clicked.
+    marquee.querySelectorAll<HTMLAnchorElement>(".mq-card").forEach((card) => {
+      card.addEventListener("click", (e) => { if (moved > 6) e.preventDefault(); });
+    });
+  }
+</script>
