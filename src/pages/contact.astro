@@ -1,18 +1,32 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { site } from "../data/site";
+import { site, openTo } from "../data/site";
 ---
 
-<BaseLayout title="Contact" description="Get in touch with Jefferson Rodriguez-Najera">
+<BaseLayout title="Contact" description="Work with Jefferson Rodriguez-Najera — research, policy analysis, and consulting">
   <section class="wrap chead">
-    <p class="eyebrow">Contact</p>
-    <h1 class="chead-title measure">Let's talk about evidence, policy, and <span class="accent-it">Latin America</span>.</h1>
+    <p class="eyebrow">Work with me</p>
+    <h1 class="chead-title measure">Let's build <span class="accent-it">evidence</span> that reaches people</h1>
     <p class="chead-blurb measure">
-      I'm open to pre-doctoral research positions, policy-analyst roles, and
-      collaborations on development economics, impact evaluation, and
-      evidence-based policy. The fastest way to reach me is by email.
+      I'm actively looking for my next role and open to new collaborations. If
+      any of the work below fits what you're building, I'd love to hear from you —
+      the fastest way to reach me is by email.
     </p>
+  </section>
 
+  <section class="wrap cwork">
+    <div class="cwork-grid">
+      {openTo.map((w) => (
+        <div class="cwork-card">
+          <h2 class="cwork-title">{w.title}</h2>
+          <p class="cwork-detail">{w.detail}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="wrap creach">
+    <p class="eyebrow">Get in touch</p>
     <div class="clinks">
       <a class="crow" href={`mailto:${site.email}`}>
         <span class="mono ckey">Email</span>
@@ -42,7 +56,22 @@ import { site } from "../data/site";
   .chead { padding-top: clamp(3rem, 2rem + 4vw, 6rem); }
   .chead-title { font-size: var(--step-3); margin: 0.4em 0; }
   .chead-blurb { font-size: var(--step-1); color: var(--ink-soft); }
-  .clinks { margin-top: 3rem; border-top: 1px solid var(--line); max-width: 720px; }
+
+  .cwork { margin-top: clamp(2.5rem, 2rem + 2vw, 4rem); }
+  .cwork-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(1.2rem, 1rem + 1vw, 2rem);
+  }
+  .cwork-card {
+    border-top: 2px solid var(--accent);
+    padding-top: 1.1rem;
+  }
+  .cwork-title { font-size: var(--step-1); line-height: 1.2; margin: 0 0 0.5rem; }
+  .cwork-detail { color: var(--ink-soft); margin: 0; line-height: 1.6; font-size: var(--step--1); }
+
+  .creach { margin-top: var(--section-y); }
+  .clinks { margin-top: 1.4rem; border-top: 1px solid var(--line); max-width: 720px; }
   .crow {
     display: grid;
     grid-template-columns: 130px 1fr auto;
@@ -59,5 +88,8 @@ import { site } from "../data/site";
   @media (max-width: 560px) {
     .crow { grid-template-columns: 1fr auto; }
     .ckey { grid-column: 1 / -1; }
+  }
+  @media (max-width: 640px) {
+    .cwork-grid { grid-template-columns: 1fr; }
   }
 </style>

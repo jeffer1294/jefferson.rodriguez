@@ -59,6 +59,31 @@ export const about = [
 "Let's connect if you work on development economics, impact evaluation, or evidence-based policy in Latin America"
 ];
 
+// Contact page — the ways Jefferson is open to working. Each card is one type
+// of engagement, rendered as a call-to-action grid.
+export const openTo: { title: string; detail: string }[] = [
+  {
+    title: "Research analyst & pre-doctoral positions",
+    detail:
+      "Full-time RA or pre-doctoral roles in development economics, applied microeconomics, and impact evaluation — the work I'm building toward a PhD around.",
+  },
+  {
+    title: "Policy analyst roles",
+    detail:
+      "Positions where causal evidence and program evaluation shape real decisions, especially on Latin American development and public governance.",
+  },
+  {
+    title: "Consulting & advisory",
+    detail:
+      "Short-term engagements on impact-evaluation design, open government and open data, access to justice, and public-sector innovation.",
+  },
+  {
+    title: "Talks & collaboration",
+    detail:
+      "Guest talks, panels, and research collaborations on evidence-based policy and development across Latin America.",
+  },
+];
+
 export const publications: {
   cite: string;
   note?: string;
