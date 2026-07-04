@@ -29,7 +29,6 @@ export const highlights = [
   "Fulbright Scholar",
   "MPP, University of Virginia",
   "4 academic publications",
-  "Costa Rica · Argentina · Colombia · Guatemala",
 ];
 
 export const categories = {

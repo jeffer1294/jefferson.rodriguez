@@ -24,7 +24,7 @@ const { href, index, title, org, period, summary, methods = [], cover } = Astro.
       <span class="card-period">{period}</span>
     </div>
     <h3 class="card-title">{title}</h3>
-    <p class="card-org mono">{org}</p>
+    <p class="card-org">{org}</p>
     <p class="card-summary">{summary}</p>
     {methods.length > 0 && (
       <ul class="card-tags">
@@ -71,7 +71,7 @@ const { href, index, title, org, period, summary, methods = [], cover } = Astro.
   .card-index { color: var(--accent); }
   .card-title { font-size: var(--step-1); line-height: 1.15; transition: color var(--transition); }
   .card:hover .card-title { color: var(--accent); }
-  .card-org { font-size: 0.78rem; color: var(--accent-2); margin: 0; letter-spacing: 0.02em; }
+  .card-org { font-size: 0.82rem; font-weight: 500; color: var(--accent-2); margin: 0; }
   .card-summary { color: var(--ink-soft); margin: 0; font-size: var(--step--1); line-height: 1.6; }
   .card-tags {
     list-style: none;

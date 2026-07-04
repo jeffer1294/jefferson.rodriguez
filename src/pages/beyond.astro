@@ -52,7 +52,7 @@ const tabs = [
                 <h3 class="item-title">{e.title}</h3>
                 <span class="item-year mono">{e.date}</span>
               </div>
-              <p class="item-org mono">{e.event} · {e.location}</p>
+              <p class="item-org">{e.event} · {e.location}</p>
               {e.note && <p class="item-detail">{e.note}</p>}
               {e.url && (
                 <a href={e.url} target="_blank" rel="noopener" class="mono">Link ↗</a>
@@ -93,7 +93,7 @@ const tabs = [
               <h3 class="item-title">{l.role}</h3>
               <span class="item-year mono">{l.period}</span>
             </div>
-            <p class="item-org mono">{l.org}</p>
+            <p class="item-org">{l.org}</p>
             <ul class="item-points">
               {l.points.map((pt) => <li>{pt}</li>)}
             </ul>
@@ -111,7 +111,7 @@ const tabs = [
               <h3 class="item-title">{e.degree}</h3>
               <span class="item-year mono">{e.period}</span>
             </div>
-            <p class="item-org mono">{e.org}</p>
+            <p class="item-org">{e.org}</p>
             <ul class="item-points">
               {e.points.map((pt) => <li>{pt}</li>)}
             </ul>
@@ -176,7 +176,7 @@ const tabs = [
   .item-top { display: grid; grid-template-columns: 1fr auto; align-items: baseline; column-gap: 1rem; }
   .item-title { font-size: var(--step-1); line-height: 1.25; }
   .item-year { font-size: var(--step--1); color: var(--ink-faint); white-space: nowrap; text-align: right; }
-  .item-org { font-size: var(--step--1); color: var(--accent-2); margin: 0.35rem 0 0; }
+  .item-org { font-size: var(--step--1); font-weight: 500; color: var(--accent-2); margin: 0.35rem 0 0; }
   .item-detail { color: var(--ink-soft); margin: 0.5rem 0 0; line-height: 1.6; }
   .item-points { margin: 0.7rem 0 0; padding-left: 1.1em; display: flex; flex-direction: column; gap: 0.5rem; }
   .item-points li { color: var(--ink-soft); line-height: 1.6; }
