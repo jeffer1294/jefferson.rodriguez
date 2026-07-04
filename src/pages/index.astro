@@ -3,7 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import ProjectCard from "../components/ProjectCard.astro";
 import Contours from "../components/Contours.astro";
 import { getCollection } from "astro:content";
-import { site, highlights, categories, about } from "../data/site";
+import { site, highlights, categories, about, events } from "../data/site";
 
 const all = await getCollection("projects");
 const featured = all
@@ -16,6 +16,10 @@ const counts = {
   innovation: all.filter((p) => p.data.category === "innovation").length,
 };
 const catKeys = ["research", "policy", "innovation"] as const;
+
+// Events with images for the home marquee. Duplicated in the template so the
+// track can loop seamlessly.
+const marquee = events.filter((e) => e.image);
 ---
 
 <BaseLayout>
@@ -89,6 +93,37 @@ const catKeys = ["research", "policy", "innovation"] as const;
           cover={p.data.cover}
         />
       ))}
+    </div>
+  </section>
+
+  <section class="events-band">
+    <div class="wrap events-head">
+      <div>
+        <p class="eyebrow">On the record</p>
+        <h2 class="block-title">Events <span class="accent-it">&amp; talks</span></h2>
+      </div>
+      <a class="btn" href="/beyond/#talks">See all →</a>
+    </div>
+    <div class="marquee" aria-label="Recent events and talks">
+      <div class="marquee-track">
+        {[...marquee, ...marquee].map((e, i) => (
+          <a
+            class="mq-card"
+            href="/beyond/#talks"
+            aria-hidden={i >= marquee.length ? "true" : undefined}
+            tabindex={i >= marquee.length ? -1 : undefined}
+          >
+            <div class="mq-media">
+              <img src={e.image} alt={e.title} loading="lazy" />
+            </div>
+            <div class="mq-body">
+              <span class="mq-date mono">{e.date} · {e.type}</span>
+              <h3 class="mq-title">{e.title}</h3>
+              <p class="mq-event mono">{e.event}</p>
+            </div>
+          </a>
+        ))}
+      </div>
     </div>
   </section>
 
@@ -205,6 +240,58 @@ const catKeys = ["research", "policy", "innovation"] as const;
   .about-row { display: grid; grid-template-columns: auto 1fr; gap: clamp(1.5rem, 1rem + 3vw, 4rem); }
   .about-copy p { margin: 0 0 1.1em; color: var(--ink-soft); }
   .about-copy .btn { margin-top: 0.4rem; }
+
+  .events-band { margin-top: var(--section-y); padding-block: clamp(2.5rem, 2rem + 2vw, 4rem); overflow: hidden; }
+  .events-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+
+  .marquee {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    gap: 1.4rem;
+    animation: marquee-scroll 55s linear infinite;
+  }
+  .marquee:hover .marquee-track { animation-play-state: paused; }
+
+  @keyframes marquee-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(calc(-50% - 0.7rem)); }
+  }
+
+  .mq-card {
+    flex: 0 0 clamp(240px, 26vw, 320px);
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--bg-2);
+    transition: border-color var(--transition), transform var(--transition);
+  }
+  .mq-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+  .mq-media { aspect-ratio: 16 / 10; overflow: hidden; background: var(--surface); }
+  .mq-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .mq-body { padding: 1rem 1.1rem 1.2rem; display: flex; flex-direction: column; gap: 0.4rem; }
+  .mq-date { font-size: var(--step--1); color: var(--accent); letter-spacing: 0.06em; text-transform: capitalize; }
+  .mq-title { font-size: var(--step-0); line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .mq-event { font-size: var(--step--1); color: var(--ink-faint); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track { animation: none; flex-wrap: nowrap; overflow-x: auto; }
+  }
 
   @media (max-width: 760px) {
     .hero-grid { grid-template-columns: 1fr; gap: 2.2rem; padding-right: 0; }
