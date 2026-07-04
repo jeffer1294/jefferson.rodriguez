@@ -7,6 +7,7 @@ export const site: {
   email: string;
   linkedin: string;
   cv: string;
+  cvExtended: string;
   photo: string;
   photoAbout?: string; // Optional: different photo for My Story page
 } = {
@@ -16,6 +17,7 @@ export const site: {
   email: "jeffersonrodriguez12@gmail.com",
   linkedin: "https://www.linkedin.com/in/jefferson-rodriguez-najera/",
   cv: "/cv/Jefferson_Rodriguez_CV.pdf", // drop the PDF here in /public/cv/
+  cvExtended: "/cv/Jefferson_Rodriguez_CV_Extended.pdf", // extended CV PDF in /public/cv/
   // Hero photo (home page)
   photo: "/images/profile-about.JPG",
   // About / My Story photo — drop a second image in /public/images/ and set the path here.
@@ -53,7 +55,7 @@ export const about = [
 "I'm from a rural town in Costa Rica, and I was the first person in my family, and one of the first in my community, to go to university. Growing up, I saw firsthand how development tends to stop at the city limits, how the State so often doesn't reach rural places. But I also grew up watching my parents fill that absence with their own hands, devoting themselves to community work where public institutions fell short. That contrast, between the help that never arrived and the people who showed up anyway, is the reason I do what I do.",
 "It set me on a path that runs from implementation to evidence. I began inside the public sector, managing and redesigning the institutions meant to serve communities like mine, and learned that good intentions aren't enough; you have to understand how people actually experience a service. So I learned to co-create solutions alongside them, through participatory and design-thinking methods, sitting with the communities and public servants on the front lines. But sitting in those rooms raised a harder question: of everything we try, what actually works? That question pushed me toward rigorous quantitative evidence, causal inference and impact evaluation, to separate what genuinely improves people's lives from what only sounds good on paper. Today I work across all three: I can manage the reform, co-design it with the people it affects, and measure whether it truly worked.",
 "That trajectory is also my toolkit. Managing and rebuilding public institutions taught me project and research coordination, leading multidisciplinary teams across multi-site initiatives. Co-creating with communities gave me qualitative and participatory research: design thinking, workshops, stakeholder co-design. Asking what works drove me to quantitative research and impact evaluation: Stata, difference-in-differences, administrative and microdata, robustness testing. And throughout, the need to move evidence into decisions sharpened two things: policy analysis and strategic thinking (cost-benefit analysis, evaluating alternatives), and research communication for both technical and non-technical audiences (policy briefs, working papers, data visualization).",
-"Concretely, that's meant a Fulbright Scholarship and a Master of Public Policy from the University of Virginia's Frank Batten School; a full-cycle impact evaluation of a nationwide judicial-access program in Costa Rica (difference-in-differences on administrative panel data in Stata); and work as a Research Assistant on development-economics projects estimating the effects of electricity subsidies and public investment on firm and development outcomes in Argentina and Colombia. Before graduate school, I spent six years in Costa Rica as a Senior Policy Analyst at the Judicial Branch (open government, open data, access to justice), as a senior project manager and researcher at the University of Costa Rica, and as co-founder of the country's first public innovation lab, now Innovaap.",
+"Concretely, that's meant a Fulbright Scholarship and a Master of Public Policy from the University of Virginia's Frank Batten School; a full-cycle impact evaluation of a nationwide judicial-access program in Costa Rica (difference-in-differences on administrative panel data in Stata); and work as a Research Assistant on development-economics projects estimating the effects of electricity subsidies and public investment on firm and development outcomes in Argentina and Colombia. Before graduate school, I spent six years working across the Costa Rican public sector and academia: as a Senior Policy Analyst at the Judicial Branch (open government, open data, access to justice), as a senior project manager and researcher at the University of Costa Rica, and as co-founder of the country's first public innovation lab, now Innovaap.",
 "I'm now seeking pre-doctoral research positions and policy-analyst roles, and preparing for PhD programs in economics and public policy, still working on the same question I grew up with: how to make development reach the places and people it has always skipped.",
 "Let's connect if you work on development economics, impact evaluation, or evidence-based policy in Latin America"
 ];
@@ -73,18 +75,18 @@ export const publications: {
     cite:
       "Rodríguez Nájera, J.; Barquero Gamboa, C.; Hernández Cruz, O. (2021). Strategic linking of cultural public policies: case analysis of the cantons of Belén, Santa Ana and Escazú. Compilación Administrar lo Público, 9th Ed., Vol. 1(1), pp. 70–82. ISBN 978-9968-932-41-7. CC BY 4.0.",
     note: "Peer-reviewed",
-    // url: "https://...",
+    url: "https://kerwa.ucr.ac.cr/items/9b6553b5-4ccd-463e-9479-ea45b21ad242",
   },
   {
     cite:
       "Rodríguez Nájera, J.; Barrantes Herrera, A.; Hurtado Herrera, A. (2020). Cultural public policy implementation: a compared study of the management models of Santa Ana, Escazú, and Belén. University of Costa Rica, Faculty of Economic Sciences.",
-    note: "Bachelor's Thesis",
-    // url: "https://...",
+    note: "BA Thesis",
+    url: "https://repositorio.sibdi.ucr.ac.cr/items/b4327629-2b2f-4d6a-b369-4fcc07cee0a1/full",
   },
   {
     cite:
       "Rodríguez, J.; Fernández, C.; Calderón, C.; Calderón, J.; Umaña, J. (2018). Collaboration networks for local innovation. Organization of American States (OAS), Trust for the Americas & Innovaap UCR.",
-    // url: "https://...",
+    url: "https://innovaap.ucr.ac.cr/wp-content/uploads/2023/05/Herramienta_-Redes-de-colaboracion-para-la-Innovacion-Local.pdf",
   },
 ];
 

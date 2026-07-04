@@ -22,7 +22,6 @@ const catKeys = ["research", "policy", "innovation"] as const;
   <section class="hero">
     <div class="wrap hero-grid">
       <div class="hero-copy">
-        <p class="eyebrow">San José, C.R. → Bogotá, Col. → Charlottesville, VA</p>
         <h1 class="hero-title">Pura vida! I’m <span class="accent-it">Jefferson</span>.</h1>
         <p class="hero-tag measure">I grew up in the mountains outside San José, Costa Rica, and I've spent my career trying to bring good policy back to towns like the one I grew up in.</p>
         <div class="hero-actions">
@@ -33,6 +32,7 @@ const catKeys = ["research", "policy", "innovation"] as const;
           <a href={`mailto:${site.email}`}>{site.email}</a>
           <a href={site.linkedin} target="_blank" rel="noopener">LinkedIn ↗</a>
           <a href={site.cv} target="_blank" rel="noopener">CV (PDF) ↓</a>
+          <a href={site.cvExtended} target="_blank" rel="noopener">Extended CV (PDF) ↓</a>
         </div>
       </div>
       <div class="hero-photo-col">
@@ -45,7 +45,6 @@ const catKeys = ["research", "policy", "innovation"] as const;
         </div>
         <p class="hero-caption mono">Vázquez de Coronado, Costa Rica</p>
       </div>
-      <span class="vert-label hero-coords" aria-hidden="true">10°04′33″ N — 83°56′53″ W — 1 385 m</span>
     </div>
   </section>
 
@@ -146,15 +145,6 @@ const catKeys = ["research", "policy", "innovation"] as const;
     color: var(--ink-faint);
     margin: 0.8rem 0 0;
   }
-  .hero-coords {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    white-space: nowrap;
-    z-index: 1;
-  }
-
   .strip { border-block: 1px solid var(--line); background: var(--bg-2); }
   .strip-inner {
     display: flex;
@@ -222,7 +212,6 @@ const catKeys = ["research", "policy", "innovation"] as const;
     .hero-photo { width: min(64vw, 250px); }
     .hero-contours { right: -20%; width: 240px; }
     .hero-caption { text-align: left; }
-    .hero-coords { display: none; }
     .cats, .grid-3 { grid-template-columns: 1fr; }
     .about-row { grid-template-columns: 1fr; }
   }

@@ -178,11 +178,30 @@ a { color: inherit; text-decoration: none; }
 }
 .btn--solid:hover { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
 
-:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
+/* Prominent CTA row inside a project's prose body (e.g. links to code/paper/deck) */
+.proj-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin: 0 0 2rem;
 }
 
+/* Two-up figure row inside a project's prose body, with captions */
+.proj-figs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--gap);
+  margin: 2rem 0;
+}
+.proj-figs figure { margin: 0; }
+.proj-figs img { width: 100%; border-radius: 12px; border: 1px solid var(--line); display: block; }
+.proj-figs figcaption { font-family: var(--font-mono); font-size: 0.72rem; color: var(--ink-faint); margin-top: 0.5rem; line-height: 1.4; }
+.proj-fig-single { margin: 2rem 0; }
+ .proj-fig-single img { width: 100%; max-width: 560px; border-radius: 12px; border: 1px solid var(--line); display: block; margin: 0 auto; }
+.proj-fig-single figcaption { font-family: var(--font-mono); font-size: 0.72rem; color: var(--ink-faint); margin-top: 0.5rem; line-height: 1.4; text-align: center; }
+@media (max-width: 560px) { .proj-figs { grid-template-columns: 1fr; } }
+
+/* Utilities */
 .mono { font-family: var(--font-mono); }
 .measure { max-width: var(--measure); }
 

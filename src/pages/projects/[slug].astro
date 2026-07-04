@@ -55,17 +55,28 @@ const next = siblings[idx + 1];
             <ul>{p.data.methods.map((m) => <li>{m}</li>)}</ul>
           </div>
         )}
-        {p.data.links.length > 0 && (
-          <div class="meta-links">
-            <p class="mono meta-label">Links</p>
-            {p.data.links.map((l) => (
-              <a href={l.url} target="_blank" rel="noopener" class="mono">{l.label} ↗</a>
-            ))}
-          </div>
-        )}
       </aside>
 
       <div class="prose measure">
+        {p.data.links.length > 0 && (
+          <div class="proj-cta">
+            {p.data.links.map((l, i) => {
+              const isDownload =
+                /\.(pdf|docx?|pptx?|xlsx?|zip)(\?|#|$)/i.test(l.url) ||
+                /sharepoint|drive\.google|dropbox/i.test(l.url);
+              const isInternal = l.url.startsWith("/") && !isDownload;
+              const arrow = isDownload ? "↓" : isInternal ? "→" : "↗";
+              const attrs = isInternal
+                ? {}
+                : { target: "_blank", rel: "noopener" };
+              return (
+                <a class={i === 0 ? "btn btn--solid" : "btn"} href={l.url} {...attrs}>
+                  {l.label} {arrow}
+                </a>
+              );
+            })}
+          </div>
+        )}
         <Content />
         {p.data.embed && (
           <div class="embed-wrap">
